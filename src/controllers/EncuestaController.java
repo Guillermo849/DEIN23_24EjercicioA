@@ -16,6 +16,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
@@ -99,6 +100,11 @@ public class EncuestaController implements Initializable {
 			
 			sldCine.valueProperty().addListener((obs, valViejo, nuevoVal) ->
 			sldCine.setValue(nuevoVal.intValue()));
+			
+			// Añadir hintbox a los Sliders
+			sldCompras.setTooltip(new Tooltip("Indica de 1 al 10 cuánto te gusta ir de compras"));
+			sldTelevision.setTooltip(new Tooltip("Indica de 1 al 10 cuánto te gusta ve la television"));
+			sldCine.setTooltip(new Tooltip("Indica de 1 al 10 cuánto te gusta ir al cine"));
 			
 			
 			
