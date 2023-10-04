@@ -9,6 +9,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
@@ -18,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="565.0" minWidth="600.0" prefHeight="565.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EncuestaController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -36,7 +37,7 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Profesión:" />
-                  <TextField alignment="CENTER" prefHeight="25.0" prefWidth="475.0">
+                  <TextField fx:id="tfProfesion" alignment="CENTER" prefHeight="25.0" prefWidth="475.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -50,7 +51,7 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Label>
-                  <ListView prefHeight="88.0" prefWidth="275.0">
+                  <ListView fx:id="lstViewDeportes" prefHeight="88.0" prefWidth="275.0">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" />
                      </VBox.margin>
@@ -60,7 +61,7 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <children>
                   <Label text="NºHermanos:" />
-                  <TextField alignment="CENTER" prefHeight="25.0" prefWidth="185.0">
+                  <TextField fx:id="tfNumHermanos" alignment="CENTER" prefHeight="25.0" prefWidth="185.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -74,7 +75,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <ComboBox prefWidth="150.0">
+                  <ComboBox fx:id="cmbBoxEdad" prefWidth="150.0">
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>
@@ -88,17 +89,20 @@
                         <Insets bottom="20.0" left="60.0" right="20.0" top="20.0" />
                      </HBox.margin>
                   </Label>
-                  <RadioButton mnemonicParsing="false" text="Hombre">
+                  <RadioButton fx:id="btnHombre" mnemonicParsing="false" text="Hombre">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tGroupSexo" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="btnMujer" mnemonicParsing="false" selected="true" text="Mujer" toggleGroup="$tGroupSexo">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" selected="true" text="Mujer">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="Otro">
+                  <RadioButton fx:id="btnOtro" mnemonicParsing="false" text="Otro" toggleGroup="$tGroupSexo">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -107,7 +111,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
-                  <CheckBox mnemonicParsing="false" text="¿Práctica algún deporte?">
+                  <CheckBox fx:id="chbxDeporte" mnemonicParsing="false" text="¿Práctica algún deporte?">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -153,9 +157,9 @@
                   </Label>
                   <Label text="Ver televisión:" GridPane.rowIndex="1" />
                   <Label text="Ir al cine:" GridPane.rowIndex="2" />
-                  <Slider majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="5" prefHeight="14.0" prefWidth="398.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" />
-                  <Slider majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="5" prefHeight="14.0" prefWidth="427.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Slider majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="5" prefHeight="14.0" prefWidth="398.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Slider fx:id="sldCompras" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" prefHeight="14.0" prefWidth="398.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Slider fx:id="sldTelevision" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" prefHeight="14.0" prefWidth="427.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Slider fx:id="sldCine" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" prefHeight="14.0" prefWidth="398.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -163,12 +167,12 @@
             </GridPane>
             <FlowPane alignment="CENTER" prefHeight="45.0" prefWidth="600.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="170.0" text="Aceptar">
+                  <Button fx:id="btnAceptar" mnemonicParsing="false" prefHeight="32.0" prefWidth="170.0" text="Aceptar">
                      <FlowPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </FlowPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="170.0" text="Cancelar">
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" prefHeight="32.0" prefWidth="170.0" text="Cancelar">
                      <FlowPane.margin>
                         <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
                      </FlowPane.margin>
