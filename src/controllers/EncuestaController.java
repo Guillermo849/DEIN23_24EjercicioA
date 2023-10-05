@@ -18,17 +18,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
-import java.awt.Window;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import application.Main;
 
 public class EncuestaController implements Initializable {
 
@@ -132,37 +128,68 @@ public class EncuestaController implements Initializable {
     private void verInformacion() {
     	
     	try {
-    		RadioButton sexo = (RadioButton) tGroupSexo.getSelectedToggle();
+    		
+    		String mensaje;
+    		
     		/*
-    		 * Ventana de informacion
+    		 * Mostrara una ventana de Error si no se han rellenado adecuadamente los siguientes objetos:
+    		 * 		- Nombre de Profesion
+    		 * 		- Número de Hermanos
+    		 * 		- No se ha seleccionado ningun objeto de la lista de deportes cuando el Checkbox(¿Practicas deportes?) a sido seleccionado
     		 * */
-    		Alert info = new Alert(Alert.AlertType.INFORMATION);
-        	info.setTitle("TUS DATOS");
-        	info.setHeaderText(null);
-        	String mensaje = "Profesion: " + tfProfesion.getText().toString() + "\n"
-        			+ "Nº de hermanos: " + tfNumHermanos.getText().toString() + "\n"
-        			+ "Edad " + cmbBoxEdad.getValue().toString() + "\n"
-        			+ "Sexo: " + sexo.getText() + "\n";
-        	if (chbxDeporte.isSelected()) {
-        		mensaje += "Deportes que practicas: \n";
-        		ObservableList<String> lstDeportes = lstViewDeportes.getSelectionModel().getSelectedItems();
-        		for (String d : lstDeportes) {
-        			mensaje += "\t " + d + "\n";
-        		}
-        	}
-        	
-        	mensaje += "Grado de afición a las compras: " + (int)sldCompras.getValue() +"\n"
-        				+ "Grado de afición a ver la televisión: " + (int)sldTelevision.getValue() +"\n"
-        				+ "Grado de afición a ir al cine: " + (int)sldCine.getValue() + "\n";
-        	
-        	info.setContentText(mensaje);
-        	info.showAndWait();
-        	
+    		if (tfProfesion.getText().trim().isEmpty() || tfNumHermanos.getText().trim().isEmpty() || !tfNumHermanos.getText().matches("[0-9]*")
+    				|| (chbxDeporte.isSelected() && lstViewDeportes.getSelectionModel().isEmpty())) {
+    			
+    			Alert alerta = new Alert(Alert.AlertType.ERROR);
+    			alerta.setTitle("TUS DATOS");
+    			alerta.setHeaderText(null);
+    			mensaje = "";
+    			if (tfProfesion.getText().trim().isEmpty()) {
+    				mensaje += "Hay que rellenar el campo de profesión \n";
+    			}
+    			if (tfNumHermanos.getText().trim().isEmpty()) {
+    				mensaje += "Hay que rellenar el campo númerico de hermanos \n";
+    			}
+    			if (!tfNumHermanos.getText().matches("[0-9]*")) {
+    				mensaje += "El campo de hermanos debe ser númerico \n";
+    			}
+    			if (chbxDeporte.isSelected() && lstViewDeportes.getSelectionModel().isEmpty()) {
+    				mensaje += "Si haces deportes tienes que que seleccionar al menos 1";
+    			}
+    			
+    			alerta.setContentText(mensaje);
+    			alerta.showAndWait();
+    			
+    		} else {
+    			RadioButton sexo = (RadioButton) tGroupSexo.getSelectedToggle();
+        		/*
+        		 * Ventana de informacion
+        		 * */
+        		Alert info = new Alert(Alert.AlertType.INFORMATION);
+            	info.setTitle("TUS DATOS");
+            	info.setHeaderText(null);
+            	mensaje = "Profesion: " + tfProfesion.getText().toString() + "\n"
+            			+ "Nº de hermanos: " + tfNumHermanos.getText().toString() + "\n"
+            			+ "Edad " + cmbBoxEdad.getValue().toString() + "\n"
+            			+ "Sexo: " + sexo.getText() + "\n";
+            	if (chbxDeporte.isSelected()) {
+            		mensaje += "Deportes que practicas: \n";
+            		ObservableList<String> lstDeportes = lstViewDeportes.getSelectionModel().getSelectedItems();
+            		for (String d : lstDeportes) {
+            			mensaje += "\t " + d + "\n";
+            		}
+            	}
+            	
+            	mensaje += "Grado de afición a las compras: " + (int)sldCompras.getValue() +"\n"
+            				+ "Grado de afición a ver la televisión: " + (int)sldTelevision.getValue() +"\n"
+            				+ "Grado de afición a ir al cine: " + (int)sldCine.getValue() + "\n";
+            	
+            	info.setContentText(mensaje);
+            	info.showAndWait();
+    		}
     	} catch (Exception e) {
-			// TODO: handle exception
+    		
 		}
-    	
     }
-    
 }
 
