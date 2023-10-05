@@ -18,13 +18,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
+import java.awt.Window;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import application.Main;
 
 public class EncuestaController implements Initializable {
 
@@ -81,6 +85,7 @@ public class EncuestaController implements Initializable {
 	public void initialize(URL url, ResourceBundle rBun) {
 		
 		try {
+			
     		// Añadimos contenido al ComboBox Edad
 			cmbBoxEdad.getItems().addAll("Menores de 18"
     		, "Entre 18 y 30"
@@ -101,13 +106,17 @@ public class EncuestaController implements Initializable {
 			sldCine.valueProperty().addListener((obs, valViejo, nuevoVal) ->
 			sldCine.setValue(nuevoVal.intValue()));
 			
-			// Añadir hintbox a los Sliders
+			// Añadir ToolTips a los Sliders
 			sldCompras.setTooltip(new Tooltip("Indica de 1 al 10 cuánto te gusta ir de compras"));
 			sldTelevision.setTooltip(new Tooltip("Indica de 1 al 10 cuánto te gusta ve la television"));
 			sldCine.setTooltip(new Tooltip("Indica de 1 al 10 cuánto te gusta ir al cine"));
 			
+			// Boton Aceptar
+			btnAceptar.setOnAction(i -> verInformacion());
 			
 			
+			// Boton Cancelar para cerrar la aplicacion
+			btnCancelar.setOnAction(e -> Platform.exit());
     		
 		} catch (Exception e) {
 			Alert alertWindows = new Alert(Alert.AlertType.ERROR);
@@ -116,5 +125,44 @@ public class EncuestaController implements Initializable {
 			alertWindows.showAndWait();
 		}
 	}
+    
+    /*
+     * Metodo que muestra una ventana con la informacion introducida en la ventana principal
+     * */
+    private void verInformacion() {
+    	
+    	try {
+    		RadioButton sexo = (RadioButton) tGroupSexo.getSelectedToggle();
+    		/*
+    		 * Ventana de informacion
+    		 * */
+    		Alert info = new Alert(Alert.AlertType.INFORMATION);
+        	info.setTitle("TUS DATOS");
+        	info.setHeaderText(null);
+        	String mensaje = "Profesion: " + tfProfesion.getText().toString() + "\n"
+        			+ "Nº de hermanos: " + tfNumHermanos.getText().toString() + "\n"
+        			+ "Edad " + cmbBoxEdad.getValue().toString() + "\n"
+        			+ "Sexo: " + sexo.getText() + "\n";
+        	if (chbxDeporte.isSelected()) {
+        		mensaje += "Deportes que practicas: \n";
+        		ObservableList<String> lstDeportes = lstViewDeportes.getSelectionModel().getSelectedItems();
+        		for (String d : lstDeportes) {
+        			mensaje += "\t " + d + "\n";
+        		}
+        	}
+        	
+        	mensaje += "Grado de afición a las compras: " + (int)sldCompras.getValue() +"\n"
+        				+ "Grado de afición a ver la televisión: " + (int)sldTelevision.getValue() +"\n"
+        				+ "Grado de afición a ir al cine: " + (int)sldCine.getValue() + "\n";
+        	
+        	info.setContentText(mensaje);
+        	info.showAndWait();
+        	
+    	} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	
+    }
+    
 }
 
