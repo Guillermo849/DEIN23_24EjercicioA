@@ -13,6 +13,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -25,6 +26,8 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 public class EncuestaController implements Initializable {
 
@@ -91,6 +94,23 @@ public class EncuestaController implements Initializable {
 			
 			// Añadimos contenido al lstViewDeportes
 			lstViewDeportes.getItems().addAll(obLstEdades);
+			// Deshabilitamos la lista cuando se habrá el programa
+			lstViewDeportes.setDisable(true);
+			// Le damos la opción de que sde pueda seleccionar varios valores
+			lstViewDeportes.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+			
+			// Que el CheckBox Deportes desabilite el ListView Deportes si no está seleccionado
+			chbxDeporte.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent arg0) {
+					if (chbxDeporte.isSelected()) {
+						lstViewDeportes.setDisable(false);
+					} else {
+						lstViewDeportes.setDisable(true);
+					}
+				}
+			});
 			
 			// Para que los Sliders no se queden entre dos numeros
 			sldCompras.valueProperty().addListener((obs, valViejo, nuevoVal) -> 
@@ -113,6 +133,7 @@ public class EncuestaController implements Initializable {
 			
 			// Boton Cancelar para cerrar la aplicacion
 			btnCancelar.setOnAction(e -> Platform.exit());
+			
     		
 		} catch (Exception e) {
 			Alert alertWindows = new Alert(Alert.AlertType.ERROR);
@@ -188,7 +209,10 @@ public class EncuestaController implements Initializable {
             	info.showAndWait();
     		}
     	} catch (Exception e) {
-    		
+    		Alert alertWindows = new Alert(Alert.AlertType.ERROR);
+			alertWindows.setHeaderText(null);
+			alertWindows.setContentText(e.toString());
+			alertWindows.showAndWait();
 		}
     }
 }
